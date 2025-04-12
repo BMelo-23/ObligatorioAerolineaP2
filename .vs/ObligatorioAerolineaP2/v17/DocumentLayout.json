@@ -1,0 +1,126 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{14A28FEE-37A5-4406-B4B6-0088571E55D9}|ObligatorioAerolineaP2\\ObligatorioAerolineaP2.csproj|c:\\users\\usuario\\source\\repos\\obligatorioaerolineap2\\obligatorioaerolineap2\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{14A28FEE-37A5-4406-B4B6-0088571E55D9}|ObligatorioAerolineaP2\\ObligatorioAerolineaP2.csproj|solutionrelative:obligatorioaerolineap2\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{14A28FEE-37A5-4406-B4B6-0088571E55D9}|ObligatorioAerolineaP2\\ObligatorioAerolineaP2.csproj|c:\\users\\usuario\\source\\repos\\obligatorioaerolineap2\\obligatorioaerolineap2\\sistema.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{14A28FEE-37A5-4406-B4B6-0088571E55D9}|ObligatorioAerolineaP2\\ObligatorioAerolineaP2.csproj|solutionrelative:obligatorioaerolineap2\\sistema.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB313232-D954-4AF8-8E9D-12664F4342FB}|Dominio\\Dominio.csproj|c:\\users\\usuario\\source\\repos\\obligatorioaerolineap2\\dominio\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AB313232-D954-4AF8-8E9D-12664F4342FB}|Dominio\\Dominio.csproj|solutionrelative:dominio\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB313232-D954-4AF8-8E9D-12664F4342FB}|Dominio\\Dominio.csproj|c:\\users\\usuario\\source\\repos\\obligatorioaerolineap2\\dominio\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AB313232-D954-4AF8-8E9D-12664F4342FB}|Dominio\\Dominio.csproj|solutionrelative:dominio\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB313232-D954-4AF8-8E9D-12664F4342FB}|Dominio\\Dominio.csproj|c:\\users\\usuario\\source\\repos\\obligatorioaerolineap2\\dominio\\ruta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AB313232-D954-4AF8-8E9D-12664F4342FB}|Dominio\\Dominio.csproj|solutionrelative:dominio\\ruta.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AB313232-D954-4AF8-8E9D-12664F4342FB}|Dominio\\Dominio.csproj|c:\\users\\usuario\\source\\repos\\obligatorioaerolineap2\\dominio\\ivalidable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AB313232-D954-4AF8-8E9D-12664F4342FB}|Dominio\\Dominio.csproj|solutionrelative:dominio\\ivalidable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\Dominio\\Usuario.cs",
+              "RelativeDocumentMoniker": "Dominio\\Usuario.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\Dominio\\Usuario.cs",
+              "RelativeToolTip": "Dominio\\Usuario.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-06T19:39:09.49Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Cliente.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\Dominio\\Cliente.cs",
+              "RelativeDocumentMoniker": "Dominio\\Cliente.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\Dominio\\Cliente.cs",
+              "RelativeToolTip": "Dominio\\Cliente.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwBIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-01T20:42:03.09Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Ruta.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\Dominio\\Ruta.cs",
+              "RelativeDocumentMoniker": "Dominio\\Ruta.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\Dominio\\Ruta.cs",
+              "RelativeToolTip": "Dominio\\Ruta.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-06T19:17:38.467Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IValidable.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\Dominio\\IValidable.cs",
+              "RelativeDocumentMoniker": "Dominio\\IValidable.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\Dominio\\IValidable.cs",
+              "RelativeToolTip": "Dominio\\IValidable.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-06T19:11:16.687Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Sistema.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\ObligatorioAerolineaP2\\Sistema.cs",
+              "RelativeDocumentMoniker": "ObligatorioAerolineaP2\\Sistema.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\ObligatorioAerolineaP2\\Sistema.cs",
+              "RelativeToolTip": "ObligatorioAerolineaP2\\Sistema.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABMAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-06T19:04:42.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\ObligatorioAerolineaP2\\Program.cs",
+              "RelativeDocumentMoniker": "ObligatorioAerolineaP2\\Program.cs",
+              "ToolTip": "C:\\Users\\USUARIO\\source\\repos\\ObligatorioAerolineaP2\\ObligatorioAerolineaP2\\Program.cs",
+              "RelativeToolTip": "ObligatorioAerolineaP2\\Program.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAowEIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-31T19:11:26.161Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
