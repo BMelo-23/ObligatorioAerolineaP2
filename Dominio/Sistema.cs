@@ -39,7 +39,7 @@ namespace Dominio
         private void PrecargarAeropuertos()
         {
             //TO DO Se debe de agregar dentro de Aeropuerto lo que corresponde
-            AgregarAeropuerto(new Aeropuerto());
+          //  AgregarAeropuerto(new Aeropuerto());
         }
         private void PrecargarAviones()
         {
@@ -58,7 +58,7 @@ namespace Dominio
             Aeropuerto origen  = BuscarAeropuertoPorCodigo("MVD");
             Aeropuerto destino = BuscarAeropuertoPorCodigo("JFK");
             Avion avion = _aviones[0];
-            AgregarVuelo(new Vuelo());
+          //  AgregarVuelo(new Vuelo());
         }
         public void AgregarAeropuerto(Aeropuerto a)
         {
@@ -69,25 +69,25 @@ namespace Dominio
         public void AgregarAvion(Avion a)
         {
             if (a == null) throw new Exception("El avion no puede ser nulo");
-            a.Validar();
+         //   a.Validar();
             _aviones.Add(a);
         }
-        public void AgregarVuelo(Vuelo v)
+        public void AgregarVuelo(Avion v)
         {
             if (v == null) throw new Exception("El vuelo no puede ser nulo");
-            v.Validar();
+            //v.Validar();
             _aviones.Add(v);
         }
         public void AgregarUsuario(Usuario u)
         {
             if (u == null) throw new Exception("El usuario no puede ser nulo");
-            u.Validar(u);
+            //u.Validar(u);
             _usuarios.Add(u);
         }
         public void AgregarRuta(Ruta r) 
         {
             if (r == null) throw new Exception("La ruta no puede ser nula");
-            r.Validar(r);
+           // r.Validar(r);
             _rutas.Add(r);
         }
         public void AgregarPasajero(Pasajero p)
