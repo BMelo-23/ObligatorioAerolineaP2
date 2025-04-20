@@ -1,4 +1,4 @@
-namespace Dominio
+namespace Dominio.Interfaces
 {
 	public interface IValidable
 	{
