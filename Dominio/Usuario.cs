@@ -29,7 +29,7 @@ namespace Dominio
 				throw new Exception("La contraseña debe tener al menos 6 caracteres");
 		}
 
-		public abstract string ObtenerDatos();
+		public abstract override string ToString();
 
 	}
 	
