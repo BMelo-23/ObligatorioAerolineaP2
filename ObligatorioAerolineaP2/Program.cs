@@ -1,51 +1,53 @@
 ﻿using Dominio;
+
 namespace ObligatorioAerolineaP2
 {
     internal class Program
     {
+        static Sistema miSistema;
         static void Main(string[] args)
         {
             miSistema = new Sistema();
 
             string opcion = "";
-            while (opcion != "0") 
+            while (opcion != "0")
             {
                 MostrarMenu();
                 Console.Write("Ingrese una opcion =>");
                 opcion = Console.ReadLine();
 
-                switch(opcion)
-            {
+                switch (opcion)
+                {
                     case "1":
-                        "Listar Clientes";
-                        "PressToContinue()";
+                       // "Listar Clientes";
+                        // "PressToContinue()";
                         break;
 
                     case "2":
-                        "Mostrar vuelos segun codigo de avion";
-                        "PressToContinue()";
+                      //  "Mostrar vuelos segun codigo de avion";
+                       // "PressToContinue()";
                         break;
                     case "3":
-                        "Alta cliente";
-                        "PressToContinue()";
+                      //  "Alta cliente";
+                      //  "PressToContinue()";
                         break;
                     case "4":
-                        "Listar pasajes segun fechas";
-                        "PressToContinue()";
+                    //    "Listar pasajes segun fechas";
+                     //   "PressToContinue()";
                         break;
 
                     case "0":
                         Console.WriteLine("Saliendo...");
                         break;
-                        default:
+                    default:
                         MostrarError("ERROR Opcion invaldia");
-                        "PressToContinue()";
+                   //     "PressToContinue()";
                         break;
 
                 }
             }
-
-             //PUNTO NRO 1 DEL MENU DEL OBLIGATORIO
+        }
+        //PUNTO NRO 1 DEL MENU DEL OBLIGATORIO
         public static void ListadoClientes(List<Cliente> clientes)
         {
             Console.Clear();
@@ -53,22 +55,29 @@ namespace ObligatorioAerolineaP2
             Console.WriteLine();
             try
             {
-                List<Cliente> todosLosUsuarios = Sistema.Usuarios;
+                /*List<Cliente> todosLosUsuarios = Sistema.Usuarios;
                 if (todosLosUsuarios.Count == 0) throw new Exception("No hay ningun usuario en el sistema");
 
-                foreach(Cliente c in todosLosUsuarios)
+                foreach (Cliente c in todosLosUsuarios)
                 {
                     Console.WriteLine(c);
-                }
-            }catch (Exception ex) { 
-                MostrarError(ex.ToString());    
+                }*/
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.ToString());
+            }
+        }
+        public static void MostrarMenu()
+        {
+        }
+        public static void MostrarError(string error)
+        {
+            
+            
         }
     }
-    }
 }
-
-
-
 
 
 
