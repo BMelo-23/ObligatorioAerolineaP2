@@ -1,3 +1,4 @@
+using Dominio.Interfaces;
 namespace Dominio {
 
     public class Aeropuerto : IValidable
@@ -29,7 +30,17 @@ namespace Dominio {
         {
             get { return _costoDeTasasAero; }
         }
-        
+      
+        private void ValidarCodigoIata()
+        {
+            if (!string.IsNullOrEmpty(_codigoIata) && _codigoIata.Length != 3) 
+                throw new Exception("El código de IATA debe de tener 3 palabras");
+        }
+        private void ValidacionDeCostos()
+        {
+            if (_costoDeOperacion < 1) throw new Exception("Costo de operación es inválido");
+            if (_costoDeTasasAero < 1) throw new Exception("Costo de tasas aéreas es inválido");
+        }
         public List<Vuelo> Vuelos
         {
             get { return _vuelos; }
@@ -42,18 +53,13 @@ namespace Dominio {
             _costoDeOperacion = costoDeOperacion;
             _costoDeTasasAero = costoDeTasasAero;
         }
-        private void ValidarCodigoIata()
-        {
-            if (!string.IsNullOrEmpty(_codigoIata) && _codigoIata.Length != 3) 
-                throw new Exception("El código de IATA debe de tener 3 palabras");
-        }
         public List<Vuelo> ListarVuelos(string codigoIATA)
         {
             List<Vuelo> resultado = new List<Vuelo>();
-            for (int i = 0; i < _vuelos.Count ; i++ )
+            foreach ( Vuelo v in _vuelos)
             {
-                if (_vuelos[i].RutaAsociada.AeropuertoSalida == codigoIATA ||
-                    _vuelos[i].RutaAsociada.AeropuertoDeLlegada == codigoIATA) resultado.Add(_vuelos[i]);
+                if (v.RutaAsociada.AeropuertoSalida.CodigoIata == codigoIATA ||
+                    v.RutaAsociada.AeropuertoDeLlegada.CodigoIata == codigoIATA) resultado.Add(v);
             }
             return resultado;
         }
@@ -66,11 +72,6 @@ namespace Dominio {
         {
             ValidarCodigoIata();
             ValidacionDeCostos();
-        }
-        private void ValidacionDeCostos()
-        {
-            if (_costoDeOperacion < 1) throw new Exception("Costo de operación es inválido");
-            if (_costoDeTasasAero < 1) throw new Exception("Costo de tasas aéreas es inválido");
         }
         
     }
