@@ -1,23 +1,56 @@
-using Dominio;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Dominio
 {
-	public class Cliente : Usuario
+	public abstract class Cliente : Usuario
 	{
-		private string _documento;
-		private string _nombre;
-		private string _nacionalidad;
+		protected string _documento;
+		protected string _nombre;
+		protected string _nacionalidad;
 
 		public string Documento
 		{
 			get { return _documento; }
 		}
+		public string Nombre
+		{
+			get {return _nombre; }
+		}
+		public string Nacionalidad
+		{
+			get {return _nacionalidad; }
+		}
+
+		public Cliente(string email, string contrasenia, string documento, string nombre, string nacionalidad) : base(email, contrasenia)
+		{
+			_documento = documento;
+			_nombre = nombre;
+			_nacionalidad = nacionalidad;
+		}
+		
+		public override void Validar()
+		{
+			base.Validar();
+
+			if (string.IsNullOrEmpty(_documento))
+			{
+				throw new Exception("El documento no puede estar vacío.");
+			}
+
+			if (string.IsNullOrEmpty(_nombre))
+			{
+				throw new Exception("El nombre no puede estar vacío.");
+			}
+
+			if (string.IsNullOrEmpty(_nacionalidad))
+			{
+				throw new Exception("La nacionalidad no puede estar vacía.");
+			}
+		}
 		public override string ToString()
         {
-            return $"Cliente: {_nombre}, Mail: {_email}, Nac: {_nacionalidad}, Puntos: {_puntos}";
+            return $"Cliente: {_nombre}, Email: {_email}, Nacionailidad: {_nacionalidad}";
         }
-
+		
     }
 }
 
