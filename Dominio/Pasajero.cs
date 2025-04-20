@@ -1,4 +1,4 @@
-
+using Dominio.Interfaces;
 namespace Dominio
 {
 	public class Pasajero : IValidable
