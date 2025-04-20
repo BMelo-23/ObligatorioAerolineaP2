@@ -1,18 +1,37 @@
-using Dominio;
-
+using System;
+using Dominio.Interfaces;
 namespace Dominio
 {
-	public class Usuario
+	public abstract class Usuario : IValidable
 	{
-		private string _email;
+		protected string _email;
+		protected string _contrasenia;
 
-		private string _contraseña;
+		public string Email
+		{
+			get { return _email; }
+		}
+		public string Contrasenia
+		{
+			get { return _contrasenia; }
+		}
 
-		private Administrador administrador;
+		public Usuario(string email, string contrasenia)
+		{
+			_email = email;
+			_contrasenia = contrasenia;
+		}
 
-		private Cliente cliente;
+		public virtual void Validar()
+		{
+			if (string.IsNullOrEmpty(_email) || !_email.Contains('@')) throw new Exception("El mail no es válido");
+			if (string.IsNullOrEmpty(_contrasenia) || _contrasenia.Length < 6)
+				throw new Exception("La contraseña debe tener al menos 6 caracteres");
+		}
+
+		public abstract string ObtenerDatos();
 
 	}
-
+	
 }
 
