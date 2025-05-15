@@ -199,19 +199,19 @@ namespace Dominio
             Administrador a2 = new Administrador("bmelo@gmail.com", "abcd", "Melo");
 
         }
-        public void AgregarAeropuerto(Aeropuerto a)
+        private void AgregarAeropuerto(Aeropuerto a)
         {
             if (a == null) throw new Exception("El aeropuerto no puede ser nulo");
             a.Validar();
             _aeropuertos.Add(a);
         }
-        public void AgregarAvion(Avion a)
+        private void AgregarAvion(Avion a)
         {
             if (a == null) throw new Exception("El avión no puede ser nulo");
             a.Validar();
             _aviones.Add(a);
         }
-        public void AgregarCliente(Cliente c)
+        private void AgregarCliente(Cliente c)
         {
             if (c == null) throw new Exception("El cliente no puede ser nulo");
             c.Validar();
@@ -223,7 +223,7 @@ namespace Dominio
             Cliente nuevo = new ClienteOcasional(email, contrasenia, documento, nombre, nacionalidad, elegible);
             nuevo.Validar();
 
-            if ( BuscarClientePorDocumento(documento) != null)
+            if ( BuscarClientePorDocumento(documento))
                 throw new Exception("Ya existe un cliente con ese documento");
 
             AgregarCliente(nuevo);
@@ -233,7 +233,7 @@ namespace Dominio
             Random rnd = new Random();
             return rnd.Next(0, 2) == 1;
         }
-        public void AgregarRuta(Ruta r)
+        private void AgregarRuta(Ruta r)
         {
             if (r == null) throw new Exception("La ruta no puede ser nula");
             
@@ -241,19 +241,19 @@ namespace Dominio
             _rutas.Add(r);
             
         }
-        public void AgregarVuelo(Vuelo v)
+        private void AgregarVuelo(Vuelo v)
         {
             if (v == null) throw new Exception("El vuelo no puede ser nulo");
             v.Validar();
             _vuelos.Add(v);
         }
-        public void AgregarPasaje(Pasaje p)
+        private void AgregarPasaje(Pasaje p)
         {
             if (p == null) throw new Exception("El pasaje no puede ser nulo");
             p.Validar();
             _pasajes.Add(p);
         }
-        public Aeropuerto BuscarAeropuertoPorCodigo(string codigo)
+        private Aeropuerto BuscarAeropuertoPorCodigo(string codigo)
         {
             Aeropuerto encontrado = null;
             int i = 0;
@@ -263,20 +263,30 @@ namespace Dominio
                     encontrado = _aeropuertos[i];
                 i++;
             }
+
+            if (encontrado == null)
+                throw new Exception($"No se encontró aeropuerto con código: {codigo}");
+
             return encontrado;
         }
-        public Cliente BuscarClientePorDocumento(string documento)
+
+        private bool BuscarClientePorDocumento(string documento)
         {
-            Cliente encontrado = null;
+            bool encontrado = false;
             int i = 0;
-            while (encontrado == null && i < _clientes.Count)
+            while (encontrado == false && i < _clientes.Count)
             {
                 if (_clientes[i].Documento.ToUpper().Equals(documento.ToUpper()))
-                    encontrado = _clientes[i];
+                    encontrado = true;
                 i++;
             }
+
+            if (!encontrado)
+                throw new Exception($"No se encontró cliente con documento: {documento}");
+
             return encontrado;
         }
+
         public void ListarClientes()
         {
             if (_clientes.Count == 0) throw new Exception("No hay clientes registrados");
