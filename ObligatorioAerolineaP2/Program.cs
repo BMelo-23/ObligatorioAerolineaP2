@@ -120,8 +120,7 @@ namespace ObligatorioAerolineaP2
         {
             Console.Clear();
             Console.WriteLine("*** VUELOS POR CÓDIGO DE AEROPUERTO ***");
-            Console.WriteLine("Ingrese el código IATA del aeropuerto: ");
-            string codigo = Console.ReadLine();
+            string codigo = PedirValor("Ingrese el código IATA del aeropuerto: ");;
 
             try
             {
