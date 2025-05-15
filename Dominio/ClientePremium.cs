@@ -21,9 +21,9 @@ namespace Dominio
 			base.Validar();
 			if (_puntos < 0) throw new Exception("Los puntos deben deben ser mayor 0");
 		}
-		public override string ToString()
+		public override string DatosCliente()
 		{
-			return base.ToString() + $"Puntos: {_puntos}";
+			return $"Nombre {Nombre} Email {Email} Nacionalidad {Nacionalidad} Puntos: {_puntos}";
 		}
 	}
 

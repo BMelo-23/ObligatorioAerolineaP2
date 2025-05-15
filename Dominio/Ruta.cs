@@ -9,7 +9,6 @@ namespace Dominio
 		private Aeropuerto _aeroDeSalida;
 		private Aeropuerto _aeroDeLlegada;
 		private double _distancia;
-		//private Aeropuerto[] aeropuerto;
 
 		public int IdRuta
 		{
@@ -17,11 +16,11 @@ namespace Dominio
 		}
 		public Aeropuerto AeropuertoSalida
 		{
-			get { return _aeroDeSalida; } //.CodigoIata; }
+			get { return _aeroDeSalida; }
 		}
 		public Aeropuerto AeropuertoDeLlegada
 		{
-			get { return _aeroDeLlegada; } //.CodigoIata; }
+			get { return _aeroDeLlegada; }
 		}
 		public double Distancia
 		{
@@ -38,16 +37,13 @@ namespace Dominio
 		}
 		public override bool Equals(object? obj)
 		{
-			if (obj is null) return false;
-			if (ReferenceEquals(this, obj)) return true;
-			if (obj.GetType() != GetType()) return false;
-			return Equals((Ruta)obj);
-		}
-		public override int GetHashCode()
-		{
-			return HashCode.Combine(_aeroDeSalida, _aeroDeLlegada, _distancia);
-		}
+			if (obj == null || this.GetType() != obj.GetType()) return false;
 
+			Ruta otraRuta = (Ruta)obj;
+			return _aeroDeSalida.Equals(otraRuta._aeroDeSalida) &&
+			       _aeroDeLlegada.Equals(otraRuta._aeroDeLlegada);
+		}
+		
 		public void Validar()
 		{
 			if ( _aeroDeSalida  == null ) throw new Exception("El aeropuerto de salida no puede ser nulo");

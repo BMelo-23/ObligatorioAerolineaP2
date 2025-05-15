@@ -3,7 +3,7 @@ namespace Dominio {
 
     public class Aeropuerto : IValidable
     {
-        private static string _codigoIata;
+        private string _codigoIata;
         private string _ciudad;
         private string _nombre;
         private double _costoDeOperacion;
@@ -34,7 +34,7 @@ namespace Dominio {
         private void ValidarCodigoIata()
         {
             if (!string.IsNullOrEmpty(_codigoIata) && _codigoIata.Length != 3) 
-                throw new Exception("El código de IATA debe de tener 3 palabras");
+                throw new Exception("El código de IATA debe de tener 3 letras");
         }
         private void ValidacionDeCostos()
         {
@@ -53,16 +53,6 @@ namespace Dominio {
             _costoDeOperacion = costoDeOperacion;
             _costoDeTasasAero = costoDeTasasAero;
         }
-        public List<Vuelo> ListarVuelos(string codigoIATA)
-        {
-            List<Vuelo> resultado = new List<Vuelo>();
-            foreach ( Vuelo v in _vuelos)
-            {
-                if (v.RutaAsociada.AeropuertoSalida.CodigoIata == codigoIATA ||
-                    v.RutaAsociada.AeropuertoDeLlegada.CodigoIata == codigoIATA) resultado.Add(v);
-            }
-            return resultado;
-        }
         public void AgregarVuelo(Vuelo vuelo)
         {
             if (vuelo == null) throw new Exception("Vuelo no puede ser vacío");
@@ -72,6 +62,13 @@ namespace Dominio {
         {
             ValidarCodigoIata();
             ValidacionDeCostos();
+        }
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
+            Aeropuerto otro = (Aeropuerto)obj;
+            return _codigoIata.ToUpper() == otro.CodigoIata.ToUpper();
         }
         
     }

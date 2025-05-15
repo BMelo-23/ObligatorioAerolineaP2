@@ -1,13 +1,10 @@
 namespace Dominio
 {
-	public class Equipaje
+	public enum Equipaje
 	{
-		public int LIGHT;
-
-		public int CABINA;
-
-		public int BODEGA;
-
+		 Light,
+		 Cabina,
+		 Bodega
 	}
 
 }

@@ -7,75 +7,171 @@ namespace ObligatorioAerolineaP2
         static Sistema miSistema;
         static void Main(string[] args)
         {
-            miSistema = new Sistema();
-
+            try
+            {
+                miSistema = new Sistema();
+                MostrarMenu();
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.Message);
+            }
+        }
+        private static void MostrarMenu()
+        {
             string opcion = "";
             while (opcion != "0")
             {
-                MostrarMenu();
-                Console.Write("Ingrese una opcion =>");
+                Console.Clear();
+                Console.WriteLine("*** MENÚ PRINCIPAL ***");
+                Console.WriteLine("1 - Listado de todos los clientes");
+                Console.WriteLine("2 - Listar vuelos por código de aeropuerto");
+                Console.WriteLine("3 - Alta de cliente ocasional");
+                Console.WriteLine("4 - Listar pasajes entre fechas");
+                Console.WriteLine("0 - Salir");
+                Console.WriteLine("Ingrese una opcion =>");
                 opcion = Console.ReadLine();
-
                 switch (opcion)
                 {
                     case "1":
-                       // "Listar Clientes";
-                        // "PressToContinue()";
+                            MostrarListadoDeClientes();
                         break;
-
                     case "2":
-                      //  "Mostrar vuelos segun codigo de avion";
-                       // "PressToContinue()";
+                            ListarVuelosXCodigoAeropuerto();
                         break;
                     case "3":
-                      //  "Alta cliente";
-                      //  "PressToContinue()";
+                            RegisterOccasionalCliente();
                         break;
                     case "4":
-                    //    "Listar pasajes segun fechas";
-                     //   "PressToContinue()";
+                            ListarPasajesEntreFechas();
                         break;
-
                     case "0":
                         Console.WriteLine("Saliendo...");
                         break;
                     default:
-                        MostrarError("ERROR Opcion invaldia");
-                   //     "PressToContinue()";
+                        MostrarError("ERROR Opcion invalida");
+                        PressToContinue();
                         break;
-
                 }
             }
+
         }
-        //PUNTO NRO 1 DEL MENU DEL OBLIGATORIO
-        public static void ListadoClientes(List<Cliente> clientes)
+
+        private static void RegisterOccasionalCliente()
         {
-            Console.Clear();
-            Console.WriteLine("*** LISTADO DE CLIENTES ***");
-            Console.WriteLine();
             try
             {
-                /*List<Cliente> todosLosUsuarios = Sistema.Usuarios;
-                if (todosLosUsuarios.Count == 0) throw new Exception("No hay ningun usuario en el sistema");
-
-                foreach (Cliente c in todosLosUsuarios)
-                {
-                    Console.WriteLine(c);
-                }*/
+                Console.Clear();
+                Console.WriteLine("*** ALTA DE CLIENTE OCASIONAL ***");
+                            
+                string nombre = PedirValor("Ingrese un nombre: ");
+                string documento = PedirValor("Ingrese un documento: ");
+                string nacionalidad = PedirValor("Ingrese una nacionalidad: ");
+                string email = PedirValor("Ingrese un email: ");
+                string contrasenia = PedirValor("Ingrese una contraseña: ");
+                miSistema.AltaClienteOcasional(email, contrasenia, documento, nombre, nacionalidad);
+                Console.WriteLine("Cliente ocasional agregado exitosamente.");
             }
             catch (Exception ex)
             {
-                MostrarError(ex.ToString());
+                MostrarError(ex.Message);
             }
+            PressToContinue();
         }
-        public static void MostrarMenu()
+
+        private static void PressToContinue()
         {
+            Console.WriteLine("Presione una tecla para continuar...");
+            Console.ReadKey();
         }
-        public static void MostrarError(string error)
+        private static void MostrarError(string error)
         {
-            
-            
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(error);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
+        private static string PedirValor(string mensaje)
+        {
+            string valor = "";
+            while ( string.IsNullOrEmpty(valor) )
+            {
+                Console.WriteLine(mensaje);
+                valor = Console.ReadLine();
+                if ( string.IsNullOrEmpty(valor) ) MostrarError("Debe de ingresar un valor valido");
+            }
+
+            return valor;
+        }
+        private static void MostrarListadoDeClientes()
+        {
+            Console.Clear();
+            Console.WriteLine("*** LISTADO DE CLIENTES ***\n");
+            try
+            {
+                miSistema.ListarClientes();
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.Message);
+            }
+            PressToContinue();
+        }
+        private static void ListarVuelosXCodigoAeropuerto()
+        {
+            Console.Clear();
+            Console.WriteLine("*** VUELOS POR CÓDIGO DE AEROPUERTO ***");
+            Console.WriteLine("Ingrese el código IATA del aeropuerto: ");
+            string codigo = Console.ReadLine();
+
+            try
+            {
+                miSistema.ListarVuelosPorAeropuerto(codigo);
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.Message);
+            }
+
+            PressToContinue();
+        }
+        private static void ListarPasajesEntreFechas()
+        {
+            Console.Clear();
+            Console.WriteLine("*** LISTADO DE PASAJES ENTRE FECHAS ***\n");
+
+            try
+            {
+                Console.Write("Ingrese fecha de inicio (formato: yyyy-mm-dd): ");
+                string inicio = Console.ReadLine();
+                DateTime fechaInicio;
+                bool parseoInicio = DateTime.TryParse(inicio, out fechaInicio);
+
+                if (!parseoInicio)
+                    throw new Exception("Formato de fecha de inicio inválido");
+
+                Console.Write("Ingrese fecha de fin (formato: yyyy-mm-dd): ");
+                string fin = Console.ReadLine();
+                DateTime fechaFin;
+                bool parseoFin = DateTime.TryParse(fin, out fechaFin);
+
+                if (!parseoFin)
+                    throw new Exception("Formato de fecha de fin inválido");
+
+                List<Pasaje> pasajes = miSistema.ListarPasajesEntreFechas(fechaInicio, fechaFin);
+
+                foreach (Pasaje p in pasajes)
+                {
+                    Console.WriteLine(p.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                MostrarError(ex.Message);
+            }
+
+            PressToContinue();
+        }
+
     }
 }
 

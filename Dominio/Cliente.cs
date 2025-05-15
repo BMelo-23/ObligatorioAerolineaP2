@@ -46,10 +46,7 @@ namespace Dominio
 				throw new Exception("La nacionalidad no puede estar vacía.");
 			}
 		}
-		public override string ToString()
-        {
-            return $"Cliente: {_nombre}, Email: {_email}, Nacionailidad: {_nacionalidad}";
-        }
+		public abstract string DatosCliente();
 		
     }
 }
