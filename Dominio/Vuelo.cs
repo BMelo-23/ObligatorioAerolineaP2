@@ -14,27 +14,22 @@ namespace Dominio
 		{
 			get { return _numeroVuelo; }
 		}
-
 		public Ruta RutaAsociada
 		{
 			get { return _ruta; }
 		}
-
 		public Avion Aeronave
 		{
 			get { return _aeronave; }
 	    }
-
 		public List<DiaDeSemana> Frecuencia
 		{
 			get { return _frecuencia; }
 		}
-
 		public double CostoXAsiento
 		{
 			get { return _costoXAsiento; }
 		}
-
 		public Vuelo(string numeroVuelo, Ruta ruta, Avion aeronave, List<DiaDeSemana> frecuencia)
 		{
 			_numeroVuelo = numeroVuelo;
@@ -44,12 +39,11 @@ namespace Dominio
 			_costoXAsiento = ((_aeronave.CostoOpXKm * _ruta.Distancia) + _ruta.AeropuertoSalida.CostoDeOperacion 
 			                  + _ruta.AeropuertoDeLlegada.CostoDeOperacion) / _aeronave.CantDeAsientos;
 		}
-
+		
 		private bool EsNumero(string valor)
 		{
 			return int.TryParse(valor, out int numero);
 		}
-
 		private void ValidarNumeroVuelo()
 		{
 			if (string.IsNullOrEmpty(_numeroVuelo)) throw new Exception("El número de vuelo no puede estar vacío");
@@ -83,7 +77,6 @@ namespace Dominio
 				throw new Exception("El número de vuelo debe terminar con 1 a 4 dígitos.");
 			}
 		}
-
 		private string ListaDias() {
 			
 			string dias = "";
@@ -103,7 +96,6 @@ namespace Dominio
 			
 			return dias;
 		}
-
 		public void Validar()
 		{
 			ValidarNumeroVuelo();
@@ -111,7 +103,13 @@ namespace Dominio
 			if (_ruta == null) throw new Exception("La ruta no puede ser nula");
 			if (_aeronave == null) throw new Exception("El avión no puede ser nulo");
 			if (_frecuencia  == null || _frecuencia.Count == 0) throw new Exception("La frecuencia debe tener al menos un día de operación");
-			if (_aeronave.Alcance < _ruta.Distancia) throw new Exception("El avión no tiene el alcance suficiente para cubrir esta ruta");
+			if (_aeronave.Alcance < _ruta.Distancia) throw new Exception($"El vuelo {_numeroVuelo} no puede ser creado, avión no tiene el alcance suficiente para cubrir esta ruta");
+		}
+		
+		public override bool Equals(object? obj)
+		{
+			Vuelo v = obj as Vuelo;
+			return v != null && _numeroVuelo.ToUpper() == v.NumeroVuelo.ToUpper();
 		}
 		public override string ToString()
 		{

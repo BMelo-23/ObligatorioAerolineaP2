@@ -77,7 +77,7 @@ namespace Dominio
             }
 
             if (!diaEnFrecuencia)
-                throw new Exception("La fecha no coincide con la frecuencia del vuelo");
+                throw new Exception($"La fecha del vuelo {_vuelo.NumeroVuelo} nombre {_pasajero.Nombre} documento {_pasajero.Documento} no coincide con la frecuencia del vuelo");
         }
 
         private DiaDeSemana TraducirDayOfWeek(DayOfWeek dia)

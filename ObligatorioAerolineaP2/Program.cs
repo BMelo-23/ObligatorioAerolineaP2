@@ -29,7 +29,7 @@ namespace ObligatorioAerolineaP2
                 Console.WriteLine("3 - Alta de cliente ocasional");
                 Console.WriteLine("4 - Listar pasajes entre fechas");
                 Console.WriteLine("0 - Salir");
-                Console.WriteLine("Ingrese una opcion =>");
+                Console.WriteLine("Ingrese una opción =>");
                 opcion = Console.ReadLine();
                 switch (opcion)
                 {
@@ -40,7 +40,7 @@ namespace ObligatorioAerolineaP2
                             ListarVuelosXCodigoAeropuerto();
                         break;
                     case "3":
-                            RegisterOccasionalCliente();
+                            AltaClienteOcasional();
                         break;
                     case "4":
                             ListarPasajesEntreFechas();
@@ -56,8 +56,7 @@ namespace ObligatorioAerolineaP2
             }
 
         }
-
-        private static void RegisterOccasionalCliente()
+        private static void AltaClienteOcasional()
         {
             try
             {
@@ -78,7 +77,6 @@ namespace ObligatorioAerolineaP2
             }
             PressToContinue();
         }
-
         private static void PressToContinue()
         {
             Console.WriteLine("Presione una tecla para continuar...");
@@ -93,22 +91,32 @@ namespace ObligatorioAerolineaP2
         private static string PedirValor(string mensaje)
         {
             string valor = "";
-            while ( string.IsNullOrEmpty(valor) )
+            while (valor == "")
             {
                 Console.WriteLine(mensaje);
                 valor = Console.ReadLine();
-                if ( string.IsNullOrEmpty(valor) ) MostrarError("Debe de ingresar un valor valido");
+                if (string.IsNullOrEmpty(valor))
+                {
+                    MostrarError("Debe ingresar un valor válido");
+                    valor = "";
+                }
             }
-
             return valor;
         }
         private static void MostrarListadoDeClientes()
         {
             Console.Clear();
-            Console.WriteLine("*** LISTADO DE CLIENTES ***\n");
+            Console.WriteLine("*** LISTADO DE CLIENTES ***");
             try
             {
-                miSistema.ListarClientes();
+
+               List<Cliente> clientes  = miSistema.ListarClientes();
+                
+               foreach ( Cliente c in clientes)
+               {
+                   Console.WriteLine(c.DatosCliente());
+               }
+               
             }
             catch (Exception ex)
             {
@@ -118,25 +126,44 @@ namespace ObligatorioAerolineaP2
         }
         private static void ListarVuelosXCodigoAeropuerto()
         {
+
             Console.Clear();
             Console.WriteLine("*** VUELOS POR CÓDIGO DE AEROPUERTO ***");
-            string codigo = PedirValor("Ingrese el código IATA del aeropuerto: ");;
 
-            try
-            {
-                miSistema.ListarVuelosPorAeropuerto(codigo);
-            }
-            catch (Exception ex)
-            {
-                MostrarError(ex.Message);
-            }
+            string codigo = "";
+            bool exito = false;
 
-            PressToContinue();
+            while (!exito)
+            {
+                codigo = PedirValor("Ingrese el código IATA del aeropuerto (o 'S' para volver al menú): ");
+                if (codigo.ToLower() == "s")
+                {
+                    exito = true;
+                }
+                else
+                {
+                    try
+                    {
+                       List<Vuelo> listaVuelos = miSistema.ListarVuelosPorAeropuerto(codigo);
+                       foreach (Vuelo v in listaVuelos)
+                       {
+                           Console.WriteLine(v.ToString());
+                           Console.WriteLine("-----------");
+                       }
+                       exito = true;
+                       PressToContinue();
+                    }
+                    catch (Exception ex)
+                    {
+                        MostrarError(ex.Message);
+                    }
+                }
+            }
         }
         private static void ListarPasajesEntreFechas()
         {
             Console.Clear();
-            Console.WriteLine("*** LISTADO DE PASAJES ENTRE FECHAS ***\n");
+            Console.WriteLine("*** LISTADO DE PASAJES ENTRE FECHAS ***");
 
             try
             {

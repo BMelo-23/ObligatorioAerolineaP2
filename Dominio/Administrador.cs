@@ -17,7 +17,7 @@ namespace Dominio
 		public override void Validar()
 		{
 			base.Validar();
-			if (string.IsNullOrEmpty(_apodo)) throw new Exception("El podo no puede estar vacio");
+			if (string.IsNullOrEmpty(_apodo)) throw new Exception("El apodo no puede estar vacio");
 
 		}
 
@@ -25,6 +25,13 @@ namespace Dominio
 		{
 			return $"Apodo: {_apodo} Email: {_email}";
 		}
+		
+		public override bool Equals(object obj)
+		{
+			Administrador otro = obj as Administrador;
+			return otro != null && _email.ToUpper() == otro._email.ToUpper();
+		}
+		
 	}
 }
 

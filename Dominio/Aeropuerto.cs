@@ -14,10 +14,6 @@ namespace Dominio {
         {
             get { return _codigoIata;  }
         }
-        public string Ciudad
-        {
-            get { return _ciudad; }
-        }
         public string Nombre
         {
             get { return _nombre; }
@@ -26,25 +22,7 @@ namespace Dominio {
         {
             get { return _costoDeOperacion; }
         }
-        public double CostoTasas
-        {
-            get { return _costoDeTasasAero; }
-        }
       
-        private void ValidarCodigoIata()
-        {
-            if (!string.IsNullOrEmpty(_codigoIata) && _codigoIata.Length != 3) 
-                throw new Exception("El código de IATA debe de tener 3 letras");
-        }
-        private void ValidacionDeCostos()
-        {
-            if (_costoDeOperacion < 1) throw new Exception("Costo de operación es inválido");
-            if (_costoDeTasasAero < 1) throw new Exception("Costo de tasas aéreas es inválido");
-        }
-        public List<Vuelo> Vuelos
-        {
-            get { return _vuelos; }
-        }
         public Aeropuerto(string codigoIata ,string ciudad, string nombre, double costoDeOperacion, double costoDeTasasAero)
         {
             _codigoIata = codigoIata;
@@ -53,22 +31,26 @@ namespace Dominio {
             _costoDeOperacion = costoDeOperacion;
             _costoDeTasasAero = costoDeTasasAero;
         }
-        public void AgregarVuelo(Vuelo vuelo)
-        {
-            if (vuelo == null) throw new Exception("Vuelo no puede ser vacío");
-            _vuelos.Add(vuelo);
-        }
+        
         public void Validar()
         {
             ValidarCodigoIata();
             ValidacionDeCostos();
         }
+        private void ValidarCodigoIata()
+        {
+            if (!string.IsNullOrEmpty(_codigoIata) && _codigoIata.Length != 3) 
+                throw new Exception("El código de IATA debe tener 3 letras");
+        }
+        private void ValidacionDeCostos()
+        {
+            if (_costoDeOperacion < 1) throw new Exception("Costo de operación es inválido");
+            if (_costoDeTasasAero < 1) throw new Exception("Costo de tasas aéreas es inválido");
+        }
         public override bool Equals(object? obj)
         {
-            if (obj == null || GetType() != obj.GetType()) return false;
-
-            Aeropuerto otro = (Aeropuerto)obj;
-            return _codigoIata.ToUpper() == otro.CodigoIata.ToUpper();
+            Aeropuerto otro = obj as Aeropuerto;
+            return otro != null && _codigoIata.ToUpper() == otro._codigoIata.ToUpper();
         }
         
     }

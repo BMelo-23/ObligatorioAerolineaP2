@@ -41,19 +41,22 @@ namespace Dominio
 		public void Validar()
 		{
 			if (string.IsNullOrEmpty(_fabricante)) throw new Exception("El fabricante no puede estar vacío");
-
 			if (string.IsNullOrEmpty(_modelo))  throw new Exception("El modelo no puede estar vacío");
-
 			if (_cantDeAsientos <= 0) throw new Exception("La cantidad de asientos debe ser mayor a cero");
-
 			if (_alcance <= 0) throw new Exception("El alcance debe ser mayor a cero");
-
 			if (_costoOpXKm <= 0) throw new Exception("El costo de operación por km debe ser mayor a cero");
 		}
 		
 		public override string ToString()
 		{
 			return $"Avión: {_fabricante} {_modelo}, Asientos: {_cantDeAsientos}, Alcance: {_alcance} km, Costo por km: ${_costoOpXKm}";
+		}
+		public override bool Equals(object? obj)
+		{
+			Avion otro = obj as Avion;
+			return otro != null &&
+			       _fabricante.ToUpper() == otro._fabricante.ToUpper() &&
+			       _modelo.ToUpper() == otro._modelo.ToUpper();
 		}
 	}
 

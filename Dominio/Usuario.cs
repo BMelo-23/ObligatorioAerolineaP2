@@ -24,11 +24,19 @@ namespace Dominio
 
 		public virtual void Validar()
 		{
-			if (string.IsNullOrEmpty(_email) || !_email.Contains('@')) throw new Exception("El mail no es válido");
+			if (string.IsNullOrEmpty(_email) || !_email.Contains('@')) 
+				throw new Exception("El mail no es válido");
 			if (string.IsNullOrEmpty(_contrasenia) || _contrasenia.Length < 6)
 				throw new Exception("La contraseña debe tener al menos 6 caracteres");
 		}
 
+		public override bool Equals(object obj)
+		{
+			Usuario otro = obj as Usuario;
+			if (otro == null) return false;
+			return this.Email.ToUpper() == otro.Email.ToUpper();
+		}
+		
 	}
 	
 }

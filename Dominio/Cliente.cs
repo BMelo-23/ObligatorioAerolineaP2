@@ -20,7 +20,8 @@ namespace Dominio
 			get {return _nacionalidad; }
 		}
 
-		public Cliente(string email, string contrasenia, string documento, string nombre, string nacionalidad) : base(email, contrasenia)
+		public Cliente(string email, string contrasenia, string documento, string nombre, string nacionalidad) 
+			 : base(email, contrasenia)
 		{
 			_documento = documento;
 			_nombre = nombre;
@@ -35,17 +36,21 @@ namespace Dominio
 			{
 				throw new Exception("El documento no puede estar vacío.");
 			}
-
 			if (string.IsNullOrEmpty(_nombre))
 			{
 				throw new Exception("El nombre no puede estar vacío.");
 			}
-
 			if (string.IsNullOrEmpty(_nacionalidad))
 			{
 				throw new Exception("La nacionalidad no puede estar vacía.");
 			}
 		}
+		public override bool Equals(object obj)
+		{
+			Cliente otro = obj as Cliente;
+			return otro != null && _documento.ToUpper() == otro._documento.ToUpper();
+		}
+
 		public abstract string DatosCliente();
 		
     }
