@@ -244,7 +244,7 @@ namespace Dominio
             AgregarAvion(new Avion("Airbus", "A320neo", 160, 6100, 5.2));
             AgregarAvion(new Avion("Embraer", "E190", 100, 4500, 3.9));
             AgregarAvion(new Avion("Boeing", "787 Dreamliner", 250, 14800, 6.5));
-            AgregarAvion(new Avion("Airbus", "A350-900ULR", 170, 18000, 7.5)); // Ultra Long Range
+            AgregarAvion(new Avion("Airbus", "A350-900ULR", 170, 18000, 7.5));
         }
         private void PrecargarClientes()
         {
