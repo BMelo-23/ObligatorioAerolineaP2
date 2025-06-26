@@ -1,0 +1,39 @@
+@using Dominio
+@{
+    ViewBag.Title = "Comprar Pasaje";
+    Vuelo vuelo = (Vuelo)ViewBag.Vuelo;
+}
+
+<h2 class="mt-4 mb-4 text-primary">Comprar Pasaje - @vuelo.NumeroVuelo</h2>
+
+<div class="container">
+    @if (ViewBag.Exito != null)
+    {
+        <div class="alert alert-success">@ViewBag.Exito</div>
+    }
+
+    @if (ViewBag.Mensaje != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Mensaje</div>
+    }
+
+    <form method="post">
+        <input type="hidden" name="numero" value="@vuelo.NumeroVuelo" />
+
+        <div class="mb-3">
+            <label class="form-label">Fecha del vuelo</label>
+            <input type="date" name="fecha" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tipo de equipaje</label>
+            <select name="equipaje" class="form-select" required>
+                <option value="Cabina">Cabina</option>
+                <option value="Bodega">Bodega</option>
+                <option value="Light">Light</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Confirmar Compra</button>
+    </form>
+</div>

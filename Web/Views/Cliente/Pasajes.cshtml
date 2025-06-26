@@ -1,0 +1,42 @@
+@using Dominio
+@model List<Pasaje>
+
+@{
+    ViewBag.Title = "Mis Pasajes";
+}
+
+<h2 class="mt-4 mb-4 text-primary">Mis Pasajes</h2>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-danger">@ViewBag.Mensaje</div>
+}
+
+@if (Model.Count == 0)
+{
+    <p>No tenés pasajes comprados.</p>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Vuelo</th>
+            <th>Fecha</th>
+            <th>Equipaje</th>
+            <th>Precio Final</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (Pasaje p in Model)
+        {
+            <tr>
+                <td>@p.Vuelo.NumeroVuelo</td>
+                <td>@p.FechaPasaje.ToShortDateString()</td>
+                <td>@p.TipoEquipaje</td>
+                <td>$@p.Precio</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -5,6 +5,11 @@ namespace Dominio
 	{
 		private int _puntos;
 		
+		public int Puntos
+		{
+			get { return _puntos; }
+		}
+		
 		public ClientePremium(string email, string contrasenia, string documento, string nombre, string nacionalidad, int puntos)
 			: base(email, contrasenia, documento, nombre, nacionalidad)
 		{

@@ -3,6 +3,7 @@ namespace Dominio
 {
     public class Sistema
     {
+        private static Sistema _instancia = new Sistema();
         private List<Aeropuerto> _aeropuertos = new List<Aeropuerto>();
         private List<Avion> _aviones = new List<Avion>();
         private List<Ruta> _rutas = new List<Ruta>();
@@ -11,6 +12,10 @@ namespace Dominio
         private List<Pasaje> _pasajes = new List<Pasaje>();
         private List<Administrador> _administradores = new List<Administrador>();
         
+        public static Sistema Instance
+        {
+            get { return _instancia; }
+        }
         public List<Aeropuerto> Aeropuertos
         {
             get { return _aeropuertos; }
@@ -39,7 +44,7 @@ namespace Dominio
         {
             get { return _administradores; }
         }
-        public Sistema()
+        public Sistema() 
         {
             PrecargarAeropuertos();
             PrecargarAviones();
@@ -49,9 +54,169 @@ namespace Dominio
             PrecargarPasajes();
             PrecargarAdministrador();
         }
+         // Buscar Ruta por Id
+        public Ruta BuscarRutaPorId(int id)
+        {
+            Ruta encontrada = null;
+            int i = 0;
+            while (encontrada == null && i < _rutas.Count)
+            {
+                if (_rutas[i].IdRuta == id)
+                    encontrada = _rutas[i];
+                i++;
+            }
+            if (encontrada == null)
+                throw new Exception($"No se encontró la ruta con ID: {id}");
+            return encontrada;
+        }
+        // Buscar Avión por Modelo (devuelve el primero que encuentra con ese modelo)
+        public Avion BuscarAvionPorModelo(string modelo)
+        {
+            Avion encontrado = null;
+            int i = 0;
+            while (encontrado == null && i < _aviones.Count)
+            {
+                if (_aviones[i].Modelo.ToUpper() == modelo.ToUpper())
+                    encontrado = _aviones[i];
+                i++;
+            }
+            if (encontrado == null)
+                throw new Exception($"No se encontró avión con modelo: {modelo}");
+            return encontrado;
+        }
+        public void AltaClienteOcasional(string email, string contrasenia, string documento, string nombre, string nacionalidad)
+        {
+            if (BuscarClientePorDocumento(documento) != null) 
+                throw new Exception("Ya existe un cliente con ese documento");
+            bool elegible = GenerarElegibilidad();
+            Cliente nuevo = new ClienteOcasional(email, contrasenia, documento, nombre, nacionalidad, elegible);
+            nuevo.Validar();
+            AgregarCliente(nuevo);
+        }
+        public List<Cliente> ListarClientes()
+        {
+            if (_clientes.Count == 0) throw new Exception("No hay clientes registrados");
+            return _clientes;
+        }
+        public List<Vuelo> ListarVuelosPorAeropuerto(string codigo)
+        {
+            if (string.IsNullOrEmpty(codigo))
+                throw new Exception("El código no puede ser vacío, por favor ingrese un valor válido");
+
+            List<Vuelo> encontrados = new List<Vuelo>();
+            
+            for (int i = 0; i < _vuelos.Count; i++)
+            {
+                Vuelo v = _vuelos[i];
+                string salida = v.RutaAsociada.AeropuertoSalida.CodigoIata.ToUpper();
+                string llegada = v.RutaAsociada.AeropuertoDeLlegada.CodigoIata.ToUpper();
+
+                if (salida.Equals(codigo.ToUpper()) || llegada.Equals(codigo.ToUpper()))
+                {
+                    encontrados.Add(v);
+                }
+            }
+
+            if (encontrados.Count == 0)
+                throw new Exception("No se encontraron vuelos con ese código de aeropuerto");
+            return encontrados;
+        }
+        public List<Pasaje> ListarPasajesEntreFechas(DateTime fechaInicio, DateTime fechaFin)
+        {
+            List<Pasaje> resultado = new List<Pasaje>();
+
+            if (fechaInicio > fechaFin)
+                throw new Exception("La fecha de inicio no puede ser posterior a la fecha final");
+
+            for (int i = 0; i < _pasajes.Count; i++)
+            {
+                Pasaje p = _pasajes[i];
+                if (p.FechaPasaje.Date >= fechaInicio.Date && p.FechaPasaje.Date <= fechaFin.Date)
+                {
+                    resultado.Add(p);
+                }
+            }
+
+            if (resultado.Count == 0)
+                throw new Exception("No se encontraron pasajes entre esas fechas");
+
+            return resultado;
+        }
+        public List<Pasaje> PasajesDeClienteOrdenadosPorPrecio(string email)
+        {
+            Cliente cliente = null;
+            int i = 0;
+
+            while (cliente == null && i < _clientes.Count)
+            {
+                if (_clientes[i].Email.ToUpper() == email.ToUpper())
+                {
+                    cliente = _clientes[i];
+                }
+                else
+                {
+                    i++;
+                }
+            }
+
+            if (cliente == null)
+            {
+                throw new Exception("Cliente no encontrado.");
+            }
+
+            List<Pasaje> resultado = new List<Pasaje>();
+
+            for (int j = 0; j < _pasajes.Count; j++)
+            {
+                if (_pasajes[j].Pasajero.Documento == cliente.Documento)
+                {
+                    resultado.Add(_pasajes[j]);
+                }
+            }
+
+            resultado.Sort(
+                delegate (Pasaje p1, Pasaje p2)
+                {
+                    int orden;
+                    if (p1.Precio > p2.Precio)
+                    {
+                        orden = -1;
+                    }
+                    else if (p1.Precio < p2.Precio)
+                    {
+                        orden = 1;
+                    }
+                    else
+                    {
+                        orden = 0;
+                    }
+                    return orden;
+                }
+            );
+
+            return resultado;
+        }
+        public List<Cliente> ClientesOrdenadosPorDocumento()
+        {
+            List<Cliente> clientesOrdenados = new List<Cliente>();
+
+            for (int i = 0; i < _clientes.Count; i++)
+            {
+                clientesOrdenados.Add(_clientes[i]);
+            }
+
+            clientesOrdenados.Sort(
+                delegate (Cliente c1, Cliente c2)
+                {
+                    int orden = string.Compare(c1.Documento.ToUpper(), c2.Documento.ToUpper());
+                    return orden;
+                }
+            );
+
+            return clientesOrdenados;
+        }
         private void PrecargarAeropuertos()
         {
-            
             AgregarAeropuerto(new Aeropuerto("MVD", "Montevideo", "Carrasco", 2, 3));
             AgregarAeropuerto(new Aeropuerto("EZE", "Buenos Aires", "Ezeiza", 3, 4));
             AgregarAeropuerto(new Aeropuerto("GRU", "Sao Paulo", "Guarulhos", 4, 5));
@@ -72,21 +237,17 @@ namespace Dominio
             AgregarAeropuerto(new Aeropuerto("BOG", "Bogotá", "El Dorado", 19, 20));
             AgregarAeropuerto(new Aeropuerto("LIM", "Lima", "Jorge Chávez", 20, 21));
             AgregarAeropuerto(new Aeropuerto("DFW", "Dallas", "Fort Worth", 21, 22));
-            
         }
         private void PrecargarAviones()
         {
-            
             AgregarAvion(new Avion("Boeing", "737-800", 180, 5500, 4.8));
             AgregarAvion(new Avion("Airbus", "A320neo", 160, 6100, 5.2));
             AgregarAvion(new Avion("Embraer", "E190", 100, 4500, 3.9));
             AgregarAvion(new Avion("Boeing", "787 Dreamliner", 250, 14800, 6.5));
             AgregarAvion(new Avion("Airbus", "A350-900ULR", 170, 18000, 7.5)); // Ultra Long Range
-            
         }
         private void PrecargarClientes()
         {
-            
             AgregarCliente(new ClientePremium("ana@mail.com", "clave123", "12345678", "Ana", "Uruguaya", 1200));
             AgregarCliente(new ClientePremium("bob@mail.com", "secure456", "87654321", "Bob", "Argentina", 950));
             AgregarCliente(new ClientePremium("carla@mail.com", "mypwd789", "11223344", "Carla", "Brasilera", 1020));
@@ -97,46 +258,42 @@ namespace Dominio
             AgregarCliente(new ClienteOcasional("martin@mail.com", "martin99", "44556677", "Martín", "Chileno", true));
             AgregarCliente(new ClienteOcasional("valen@mail.com", "vale1234", "55669988", "Valentina", "Brasilera", true));
             AgregarCliente(new ClienteOcasional("nico@mail.com", "nicol4321", "66778899", "Nicolás", "Colombiano", false));
-            
         }
         private void PrecargarRutas()
         {
-            
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MVD"), BuscarAeropuertoPorCodigo("EZE"), 200));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MVD"), BuscarAeropuertoPorCodigo("GRU"), 700));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("GRU"), BuscarAeropuertoPorCodigo("EZE"), 800));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("JFK"), BuscarAeropuertoPorCodigo("LAX"), 4000));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("CDG"), BuscarAeropuertoPorCodigo("LHR"), 350));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("LHR"), BuscarAeropuertoPorCodigo("SYD"), 17000));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("SYD"), BuscarAeropuertoPorCodigo("NRT"), 7800));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("NRT"), BuscarAeropuertoPorCodigo("FRA"), 9300));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("FRA"), BuscarAeropuertoPorCodigo("AMS"), 400));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("AMS"), BuscarAeropuertoPorCodigo("BCN"), 1200));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("BCN"), BuscarAeropuertoPorCodigo("BER"), 1500));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("BER"), BuscarAeropuertoPorCodigo("MAD"), 1800));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MAD"), BuscarAeropuertoPorCodigo("MIA"), 7100));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MIA"), BuscarAeropuertoPorCodigo("YYZ"), 2300));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("YYZ"), BuscarAeropuertoPorCodigo("SCL"), 8900));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("SCL"), BuscarAeropuertoPorCodigo("BOG"), 5000));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("BOG"), BuscarAeropuertoPorCodigo("LIM"), 1900));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("LIM"), BuscarAeropuertoPorCodigo("DFW"), 6200));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("DFW"), BuscarAeropuertoPorCodigo("JFK"), 2200));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("JFK"), BuscarAeropuertoPorCodigo("CDG"), 5850));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("EZE"), BuscarAeropuertoPorCodigo("MIA"), 7100));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MVD"), BuscarAeropuertoPorCodigo("YYZ"), 8900));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MAD"), BuscarAeropuertoPorCodigo("GRU"), 8200));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("BCN"), BuscarAeropuertoPorCodigo("SCL"), 10300));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("BER"), BuscarAeropuertoPorCodigo("BOG"), 9800));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("AMS"), BuscarAeropuertoPorCodigo("LAX"), 9400));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("CDG"), BuscarAeropuertoPorCodigo("SYD"), 16900));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("LHR"), BuscarAeropuertoPorCodigo("DFW"), 7600));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("NRT"), BuscarAeropuertoPorCodigo("JFK"), 10800));
-         AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("FRA"), BuscarAeropuertoPorCodigo("MVD"), 11500));
-
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MVD"), BuscarAeropuertoPorCodigo("EZE"), 200));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MVD"), BuscarAeropuertoPorCodigo("GRU"), 700));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("GRU"), BuscarAeropuertoPorCodigo("EZE"), 800));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("JFK"), BuscarAeropuertoPorCodigo("LAX"), 4000));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("CDG"), BuscarAeropuertoPorCodigo("LHR"), 350));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("LHR"), BuscarAeropuertoPorCodigo("SYD"), 17000));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("SYD"), BuscarAeropuertoPorCodigo("NRT"), 7800));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("NRT"), BuscarAeropuertoPorCodigo("FRA"), 9300));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("FRA"), BuscarAeropuertoPorCodigo("AMS"), 400));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("AMS"), BuscarAeropuertoPorCodigo("BCN"), 1200));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("BCN"), BuscarAeropuertoPorCodigo("BER"), 1500));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("BER"), BuscarAeropuertoPorCodigo("MAD"), 1800));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MAD"), BuscarAeropuertoPorCodigo("MIA"), 7100));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MIA"), BuscarAeropuertoPorCodigo("YYZ"), 2300));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("YYZ"), BuscarAeropuertoPorCodigo("SCL"), 8900));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("SCL"), BuscarAeropuertoPorCodigo("BOG"), 5000));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("BOG"), BuscarAeropuertoPorCodigo("LIM"), 1900));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("LIM"), BuscarAeropuertoPorCodigo("DFW"), 6200));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("DFW"), BuscarAeropuertoPorCodigo("JFK"), 2200));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("JFK"), BuscarAeropuertoPorCodigo("CDG"), 5850));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("EZE"), BuscarAeropuertoPorCodigo("MIA"), 7100));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MVD"), BuscarAeropuertoPorCodigo("YYZ"), 8900));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("MAD"), BuscarAeropuertoPorCodigo("GRU"), 8200));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("BCN"), BuscarAeropuertoPorCodigo("SCL"), 10300));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("BER"), BuscarAeropuertoPorCodigo("BOG"), 9800));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("AMS"), BuscarAeropuertoPorCodigo("LAX"), 9400));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("CDG"), BuscarAeropuertoPorCodigo("SYD"), 16900));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("LHR"), BuscarAeropuertoPorCodigo("DFW"), 7600));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("NRT"), BuscarAeropuertoPorCodigo("JFK"), 10800));
+             AgregarRuta(new Ruta(BuscarAeropuertoPorCodigo("FRA"), BuscarAeropuertoPorCodigo("MVD"), 11500));
         }
         private void PrecargarVuelos()
         {
-    
             AgregarVuelo(new Vuelo("UA101", BuscarRutaPorId(1), BuscarAvionPorModelo("737-800"), new List<DiaDeSemana> { DiaDeSemana.Lunes }));
             AgregarVuelo(new Vuelo("AF202", BuscarRutaPorId(2), BuscarAvionPorModelo("A320neo"), new List<DiaDeSemana> { DiaDeSemana.Martes }));
             AgregarVuelo(new Vuelo("LH303", BuscarRutaPorId(3), BuscarAvionPorModelo("E190"), new List<DiaDeSemana> { DiaDeSemana.Miercoles }));
@@ -170,8 +327,7 @@ namespace Dominio
 
         }
         private void PrecargarPasajes()
-        { 
-            
+        {
             AgregarPasaje(new Pasaje(new DateTime(2025, 6, 2), Vuelos[0], Clientes[0], Equipaje.Cabina, 0));
             AgregarPasaje(new Pasaje(new DateTime(2025, 6, 3), Vuelos[1], Clientes[1], Equipaje.Bodega, 1));
             AgregarPasaje(new Pasaje(new DateTime(2025, 6, 4), Vuelos[2], Clientes[2], Equipaje.Light, 2));
@@ -206,10 +362,8 @@ namespace Dominio
         }
         private void PrecargarAdministrador()
         {
-            
             AgregarAdministrador(new Administrador("admin1@aerolinea.com", "superadmin", "Ibarra"));
             AgregarAdministrador(new Administrador("admin2@aerolinea.com", "adminpass2", "Melo"));
-
         }
         private void AgregarAdministrador(Administrador a)
         {
@@ -322,94 +476,6 @@ namespace Dominio
             }
             return encontrado;
         }
-        // Buscar Ruta por Id
-        public Ruta BuscarRutaPorId(int id)
-        {
-            Ruta encontrada = null;
-            int i = 0;
-            while (encontrada == null && i < _rutas.Count)
-            {
-                if (_rutas[i].IdRuta == id)
-                    encontrada = _rutas[i];
-                i++;
-            }
-            if (encontrada == null)
-                throw new Exception($"No se encontró la ruta con ID: {id}");
-            return encontrada;
-        }
-
-        // Buscar Avión por Modelo (devuelve el primero que encuentra con ese modelo)
-        public Avion BuscarAvionPorModelo(string modelo)
-        {
-            Avion encontrado = null;
-            int i = 0;
-            while (encontrado == null && i < _aviones.Count)
-            {
-                if (_aviones[i].Modelo.ToUpper() == modelo.ToUpper())
-                    encontrado = _aviones[i];
-                i++;
-            }
-            if (encontrado == null)
-                throw new Exception($"No se encontró avión con modelo: {modelo}");
-            return encontrado;
-        }
-        public void AltaClienteOcasional(string email, string contrasenia, string documento, string nombre, string nacionalidad)
-        {
-            if (BuscarClientePorDocumento(documento) != null) 
-                throw new Exception("Ya existe un cliente con ese documento");
-            bool elegible = GenerarElegibilidad();
-            Cliente nuevo = new ClienteOcasional(email, contrasenia, documento, nombre, nacionalidad, elegible);
-            nuevo.Validar();
-            AgregarCliente(nuevo);
-        }
-        public List<Cliente> ListarClientes()
-        {
-            if (_clientes.Count == 0) throw new Exception("No hay clientes registrados");
-            return _clientes;
-        }
-        public List<Vuelo> ListarVuelosPorAeropuerto(string codigo)
-        {
-            if (string.IsNullOrEmpty(codigo))
-                throw new Exception("El código no puede ser vacío, por favor ingrese un valor válido");
-
-            List<Vuelo> encontrados = new List<Vuelo>();
-            
-            for (int i = 0; i < _vuelos.Count; i++)
-            {
-                Vuelo v = _vuelos[i];
-                string salida = v.RutaAsociada.AeropuertoSalida.CodigoIata.ToUpper();
-                string llegada = v.RutaAsociada.AeropuertoDeLlegada.CodigoIata.ToUpper();
-
-                if (salida.Equals(codigo.ToUpper()) || llegada.Equals(codigo.ToUpper()))
-                {
-                    encontrados.Add(v);
-                }
-            }
-
-            if (encontrados.Count == 0)
-                throw new Exception("No se encontraron vuelos con ese código de aeropuerto");
-            return encontrados;
-        }
-        public List<Pasaje> ListarPasajesEntreFechas(DateTime fechaInicio, DateTime fechaFin)
-        {
-            List<Pasaje> resultado = new List<Pasaje>();
-
-            if (fechaInicio > fechaFin)
-                throw new Exception("La fecha de inicio no puede ser posterior a la fecha final");
-
-            for (int i = 0; i < _pasajes.Count; i++)
-            {
-                Pasaje p = _pasajes[i];
-                if (p.FechaPasaje.Date >= fechaInicio.Date && p.FechaPasaje.Date <= fechaFin.Date)
-                {
-                    resultado.Add(p);
-                }
-            }
-
-            if (resultado.Count == 0)
-                throw new Exception("No se encontraron pasajes entre esas fechas");
-
-            return resultado;
-        }
+        
     }
 }

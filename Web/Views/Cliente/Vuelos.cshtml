@@ -1,0 +1,40 @@
+@using Dominio
+@model List<Vuelo>
+
+@{
+    ViewBag.Title = "Vuelos Disponibles";
+}
+
+<h2 class="mt-4 mb-4 text-primary">Vuelos Disponibles</h2>
+
+<div class="container">
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Número</th>
+            <th>Ruta</th>
+            <th>Días</th>
+            <th>Avión</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (Vuelo v in Model)
+        {
+            <tr>
+                <td>@v.NumeroVuelo</td>
+                <td>@v.RutaAsociada.AeropuertoSalida.CodigoIata → @v.RutaAsociada.AeropuertoDeLlegada.CodigoIata</td>
+                <td>
+                    @foreach (DiaDeSemana d in v.Frecuencia)
+                    {
+                        <span>@d </span>
+                    }
+                </td>
+                <td>@v.Aeronave.Fabricante @v.Aeronave.Modelo</td>
+                <td>
+                    <a class="btn btn-sm btn-primary" asp-controller="Cliente" asp-action="Comprar" asp-route-numero="@v.NumeroVuelo">Comprar</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

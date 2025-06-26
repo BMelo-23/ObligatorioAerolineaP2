@@ -61,6 +61,11 @@ namespace Dominio
             ValidarFrecuencia();
         }
 
+        public override string ToString()
+        {
+            return $"Pasaje {_idPasaje} Fecha {_fechaPasaje.ToShortDateString()}  Vuelo {_vuelo.NumeroVuelo}  Pasajero {_pasajero.Nombre}  Precio ${_precio:F2}";
+        }
+        
         private void ValidarFrecuencia()
         {
             DiaDeSemana diaPasaje = TraducirDayOfWeek(_fechaPasaje.DayOfWeek);
@@ -104,11 +109,5 @@ namespace Dominio
             }
             return esDia;
         }
-
-        public override string ToString()
-        {
-            return $"Pasaje {_idPasaje} Fecha {_fechaPasaje.ToShortDateString()}  Vuelo {_vuelo.NumeroVuelo}  Pasajero {_pasajero.Nombre}  Precio ${_precio:F2}";
-        }
-
     }
 }

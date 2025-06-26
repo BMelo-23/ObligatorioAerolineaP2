@@ -1,0 +1,44 @@
+@{
+    ViewBag.Title = "Registro de Cliente Ocasional";
+}
+
+<h2 class="mt-4 mb-4 text-primary">Registro de Cliente Ocasional</h2>
+
+<div class="container">
+    <form method="post" class="row g-3">
+        <div class="col-md-6">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="nacionalidad" class="form-label">Nacionalidad</label>
+            <input type="text" class="form-control" id="nacionalidad" name="nacionalidad" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="documento" class="form-label">Documento</label>
+            <input type="text" class="form-control" id="documento" name="documento" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="contrasenia" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="contrasenia" name="contrasenia" required>
+            <div class="form-text">Debe tener al menos 8 caracteres y ser alfanumérica.</div>
+        </div>
+
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+        </div>
+    </form>
+
+    @if (ViewBag.Mensaje != null)
+    {
+        <div class="alert alert-danger mt-3">@ViewBag.Mensaje</div>
+    }
+</div>

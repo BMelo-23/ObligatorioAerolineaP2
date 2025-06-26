@@ -31,11 +31,15 @@ namespace Dominio {
             _costoDeOperacion = costoDeOperacion;
             _costoDeTasasAero = costoDeTasasAero;
         }
-        
         public void Validar()
         {
             ValidarCodigoIata();
             ValidacionDeCostos();
+        }
+        public override bool Equals(object? obj)
+        {
+            Aeropuerto otro = obj as Aeropuerto;
+            return otro != null && _codigoIata.ToUpper() == otro._codigoIata.ToUpper();
         }
         private void ValidarCodigoIata()
         {
@@ -47,11 +51,7 @@ namespace Dominio {
             if (_costoDeOperacion < 1) throw new Exception("Costo de operación es inválido");
             if (_costoDeTasasAero < 1) throw new Exception("Costo de tasas aéreas es inválido");
         }
-        public override bool Equals(object? obj)
-        {
-            Aeropuerto otro = obj as Aeropuerto;
-            return otro != null && _codigoIata.ToUpper() == otro._codigoIata.ToUpper();
-        }
+        
         
     }
 }

@@ -1,0 +1,51 @@
+@using Dominio
+@model List<Vuelo>
+
+@{
+    ViewData["Title"] = "Vuelos por Aeropuerto";
+}
+
+<h2 class="text-primary mt-4 mb-3">Buscar Vuelos por Código IATA</h2>
+
+<form asp-action="VuelosPorAeropuerto" method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="codigo" class="form-control" placeholder="Ej: MVD" value="@ViewBag.Codigo" required />
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-warning">@ViewBag.Mensaje</div>
+}
+else if (Model != null && Model.Count > 0)
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Vuelo</th>
+            <th>Salida</th>
+            <th>Llegada</th>
+            <th>Modelo</th>
+            <th>Frecuencia</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (Vuelo v in Model)
+        {
+            <tr>
+                <td>@v.NumeroVuelo</td>
+                <td>@v.RutaAsociada.AeropuertoSalida.CodigoIata</td>
+                <td>@v.RutaAsociada.AeropuertoDeLlegada.CodigoIata</td>
+                <td>@v.Aeronave.Modelo</td>
+                <td>
+                    @for (int i = 0; i < v.Frecuencia.Count; i++)
+                    {
+                        @v.Frecuencia[i]@(i < v.Frecuencia.Count - 1 ? ", " : "")
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

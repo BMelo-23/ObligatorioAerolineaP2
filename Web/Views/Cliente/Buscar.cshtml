@@ -1,0 +1,61 @@
+@using Dominio
+@model List<Vuelo>
+
+@{
+    ViewBag.Title = "Buscar Vuelos por Ruta";
+}
+
+<h2 class="mt-4 mb-4 text-primary">Buscar Vuelos por Ruta</h2>
+
+<div class="container mb-4">
+    <form method="post" class="row g-3">
+        <div class="col-md-6">
+            <label for="salida" class="form-label">Código IATA de Salida</label>
+            <input type="text" class="form-control" name="salida" id="salida">
+        </div>
+
+        <div class="col-md-6">
+            <label for="llegada" class="form-label">Código IATA de Llegada</label>
+            <input type="text" class="form-control" name="llegada" id="llegada">
+        </div>
+
+        <div class="col-12 mt-3">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+    </form>
+</div>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-danger">@ViewBag.Mensaje</div>
+}
+
+@if (Model != null && Model.Count > 0)
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Número</th>
+            <th>Ruta</th>
+            <th>Días</th>
+            <th>Avión</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (Vuelo v in Model)
+        {
+            <tr>
+                <td>@v.NumeroVuelo</td>
+                <td>@v.RutaAsociada.AeropuertoSalida.CodigoIata → @v.RutaAsociada.AeropuertoDeLlegada.CodigoIata</td>
+                <td>
+                    @foreach (DiaDeSemana d in v.Frecuencia)
+                    {
+                        <span>@d </span>
+                    }
+                </td>
+                <td>@v.Aeronave.Fabricante @v.Aeronave.Modelo</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

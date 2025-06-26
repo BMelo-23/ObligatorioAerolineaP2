@@ -29,7 +29,6 @@ namespace Dominio
 		{
 			_idRuta = _contadorId;
 			_contadorId++;
-			
 			_aeroDeSalida  = aeroDeSalida;
 			_aeroDeLlegada = aeroDeLlegada;
 			_distancia     = distancia;
@@ -50,6 +49,7 @@ namespace Dominio
 				throw new Exception("La ruta no puede ser entre el mismo aeropuerto");
 			if ( _distancia <= 0 ) throw new Exception("la distancia debe ser mayor 0");
 		}
+		
 	}
 
 }

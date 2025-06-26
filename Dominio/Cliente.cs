@@ -20,8 +20,7 @@ namespace Dominio
 			get {return _nacionalidad; }
 		}
 
-		public Cliente(string email, string contrasenia, string documento, string nombre, string nacionalidad) 
-			 : base(email, contrasenia)
+		public Cliente(string email, string contrasenia, string documento, string nombre, string nacionalidad) : base(email, contrasenia)
 		{
 			_documento = documento;
 			_nombre = nombre;

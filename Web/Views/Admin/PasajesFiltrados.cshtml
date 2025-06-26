@@ -1,0 +1,54 @@
+@model List<Dominio.Pasaje>
+
+@{
+    ViewData["Title"] = "Pasajes entre Fechas";
+}
+
+<h2 class="mt-4 mb-4 text-primary">Buscar Pasajes por Fecha</h2>
+
+<form asp-action="VerPasajes" method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+            <input type="date" name="fechaInicio" class="form-control" required />
+        </div>
+        <div class="col-md-4">
+            <label for="fechaFin" class="form-label">Fecha Fin</label>
+            <input type="date" name="fechaFin" class="form-control" required />
+        </div>
+        <div class="col-md-4 align-self-end">
+            <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+        </div>
+    </div>
+</form>
+
+@if (ViewBag.Busqueda == true &&  ViewBag.Mensaje != null)
+{
+    <div class="alert alert-warning">@ViewBag.Mensaje</div>
+}
+else if (Model != null && Model.Count > 0)
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Fecha</th>
+            <th>Nro Vuelo</th>
+            <th>Pasajero</th>
+            <th>Equipaje</th>
+            <th>Precio</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.FechaPasaje.ToShortDateString()</td>
+                <td>@p.Vuelo.NumeroVuelo</td>
+                <td>@p.Pasajero.Nombre</td>
+                <td>@p.TipoEquipaje</td>
+                <td>$@p.Precio</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
